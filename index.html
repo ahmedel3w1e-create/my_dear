@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سماء الطمأنينة | إلى ياسمين</title>
+    
+    <!-- استدعاء خطوط عربية أنيقة: Amiri للشعر والخواطر، و Cairo للواجهة العصرية الدافئة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome للأيقونات الرقيقة -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        poetry: ['Amiri', 'serif'],
+                    },
+                    colors: {
+                        midnight: '#090d16',
+                        twilight: '#131b2e',
+                        moonlight: '#f4d06f',
+                        blush: '#e899a6',
+                        lavender: '#a393eb',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 1.2s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(15px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* تنسيقات مخصصة للخلفية والزجاجية والتأثيرات البصرية */
+        body {
+            background-color: #090d16;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* خلفية الكانفاس التفاعلية */
+        #skyCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* تأثير الزجاج المصنفر الدافئ */
+        .glass-card {
+            background: rgba(22, 32, 56, 0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(244, 208, 111, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        .glass-card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(244, 208, 111, 0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px 0 rgba(244, 208, 111, 0.12);
+        }
+
+        /* توهج النجوم التفاعلية */
+        .star-orb {
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        .star-orb::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(244, 208, 111, 0.35) 0%, transparent 70%);
+            opacity: 0.6;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .star-orb:hover::after {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #283556;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f4d06f;
+        }
+
+        /* زهرة الياسمين الرمزية المتوهجة */
+        .jasmine-glow {
+            filter: drop-shadow(0 0 12px rgba(244, 208, 111, 0.5));
+        }
+
+        /* حركة انتقال الشعر */
+        .poetry-transition {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-moonlight/30 selection:text-moonlight">
+
+    <!-- خلفية السماء والنجوم والفوانيس الطائرة -->
+    <canvas id="skyCanvas"></canvas>
+
+    <!-- زر التحكم في الصوت الهادئ العائم -->
+    <div class="fixed top-4 left-4 z-50 flex items-center gap-2">
+        <button id="audioToggleBtn" onclick="toggleAmbientAudio()" 
+            class="glass-card px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium text-moonlight/90 hover:text-moonlight border border-moonlight/25 hover:border-moonlight/60 transition-all flex items-center gap-2 shadow-lg cursor-pointer"
+            title="تشغيل أو إيقاف الموسيقى الهادئة">
+            <i id="audioIcon" class="fa-solid fa-volume-xmark text-blush"></i>
+            <span id="audioLabel">صوت هادئ</span>
+        </button>
+    </div>
+
+    <!-- شاشة الترحيب الافتتاحية (Welcome Sanctuary) -->
+    <section id="welcomeScreen" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12 text-center transition-all duration-1000">
+        <div class="max-w-2xl mx-auto glass-card rounded-3xl p-8 sm:p-12 border border-moonlight/20 animate-fade-in">
+            
+            <!-- أيقونة زهرة الياسمين / الهلال المضيء (مدخل سري بالنقر 5 مرات) -->
+            <div onclick="handleSecretTap()" class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-tr from-twilight to-moonlight/20 border border-moonlight/30 flex items-center justify-center animate-float jasmine-glow cursor-pointer select-none" title="سماء الطمأنينة">
+                <svg class="w-10 h-10 text-moonlight" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C13.5 6 16 8.5 20 10C16 11.5 13.5 14 12 18C10.5 14 8 11.5 4 10C8 8.5 10.5 6 12 2Z"/>
+                    <circle cx="12" cy="10" r="2" fill="#e899a6"/>
+                    <path d="M18 16C18.8 18 20 19.2 22 20C20 20.8 18.8 22 18 24C17.2 22 16 20.8 14 20C16 19.2 17.2 18 18 16Z" opacity="0.7"/>
+                </svg>
+            </div>
+
+            <span class="inline-block px-4 py-1 rounded-full text-xs tracking-wider bg-blush/15 text-blush border border-blush/30 mb-4">
+                مساحة آمنة ومصنوعة خصيصاً لقلبك
+            </span>
+
+            <h1 class="text-3xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+                إلى <span class="text-moonlight">ياسمين</span>...
+            </h1>
+
+            <p class="font-poetry text-xl sm:text-2xl text-gray-200 leading-relaxed mb-6">
+                "أعلم أن في قلبكِ حزناً صامتاً، وأن الفقد يترك ثقلاً لا يُحكى... لا بأس أن تتعبي، ولا بأس أن تحزني، لكن تذكّري دائماً أنكِ لستِ وحدكِ."
+            </p>
+
+            <p class="text-sm sm:text-base text-gray-300/90 leading-relaxed mb-8 max-w-lg mx-auto">
+                صنعتُ لكِ هذا المكان الهادئ ليكون ملجأً لروحك؛ لتتركي فيه ما يثقل صدرك، وتدعي لمن رحلوا بسلام، وتجدي كلماتٍ تذكّركِ أنني بجانبكِ في كل خطوة.
+            </p>
+
+            <button onclick="enterSanctuary()" 
+                class="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-base sm:text-lg font-bold text-midnight bg-gradient-to-l from-moonlight to-[#fbe08c] rounded-2xl shadow-[0_0_25px_rgba(244,208,111,0.35)] hover:shadow-[0_0_35px_rgba(244,208,111,0.6)] hover:scale-105 transition-all duration-300 cursor-pointer">
+                <span>افتحي مساحتكِ الهادئة</span>
+                <i class="fa-solid fa-sparkles transition-transform group-hover:rotate-12"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- المحتوى الرئيسي للموقع (يظهر بسلاسة بعد الدخول) -->
+    <main id="mainContent" class="hidden relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pb-24 pt-16 space-y-20 opacity-0 transition-opacity duration-1000">
+
+        <!-- شريط التنقل السريع العائم في الأعلى -->
+        <nav class="sticky top-4 z-40 glass-card rounded-2xl p-2 sm:p-3 max-w-2xl mx-auto flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 border border-moonlight/20">
+            <a href="#release-section" class="px-3 py-2 rounded-xl text-xs sm:text-sm text-gray-200 hover:text-moonlight hover:bg-white/5 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-feather-pointed text-moonlight"></i>
+                <span>فضفضي وارتاحي</span>
+            </a>
+            <a href="#prayers-section" class="px-3 py-2 rounded-xl text-xs sm:text-sm text-gray-200 hover:text-moonlight hover:bg-white/5 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-star-and-crescent text-blush"></i>
+                <span>دعاء وطمأنينة</span>
+            </a>
+            <a href="#poetry-section" class="px-3 py-2 rounded-xl text-xs sm:text-sm text-gray-200 hover:text-moonlight hover:bg-white/5 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-book-open text-lavender"></i>
+                <span>شعر لقلبك</span>
+            </a>
+            <a href="#smile-section" class="px-3 py-2 rounded-xl text-xs sm:text-sm text-gray-200 hover:text-moonlight hover:bg-white/5 transition-all flex items-center gap-1.5">
+                <i class="fa-regular fa-face-smile-beam text-moonlight"></i>
+                <span>لأجل ابتسامتك</span>
+            </a>
+        </nav>
+
+        <!-- القسم الأول: فضفضي وارتاحي (إطلاق الهموم إلى السماء) -->
+        <section id="release-section" class="scroll-mt-24">
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-moonlight/20 relative overflow-hidden">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-moonlight/10 text-moonlight mb-4">
+                        <i class="fa-solid fa-lantern text-xl"></i>
+                        <i class="fa-solid fa-paper-plane text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">صندوق الفضفضة.. لا تكتُمي في قلبكِ شيئاً</h2>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        الكتمان يتعب الروح يا ياسمين. اكتبي هنا كل ما يوجع قلبكِ، أو اشتياقكِ لمن رحلوا، أو أي شعور يثقل صدركِ... ثم أطلقيه للسماء كفانوسٍ من نور ليهدأ قلبكِ. <span class="text-moonlight/80 text-xs block mt-1">(كلماتكِ خاصة بكِ وحدكِ ولا يتم حفظها في أي مكان، بل تتحول لنور يطير في السماء)</span>
+                    </p>
+                </div>
+
+                <div class="max-w-xl mx-auto space-y-4">
+                    <div class="relative">
+                        <textarea id="releaseInput" rows="4" 
+                            placeholder="اكتبي هنا كل اللي كاتماه جواكي يا ياسمين... مفيش أي قيود، طلّعي كل اللي في قلبك..."
+                            class="w-full rounded-2xl bg-midnight/70 border border-moonlight/25 focus:border-moonlight focus:ring-2 focus:ring-moonlight/20 text-white placeholder-gray-400 p-4 sm:p-5 text-sm sm:text-base leading-relaxed resize-none transition-all outline-none"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <span class="text-xs text-gray-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-lock text-moonlight/70"></i>
+                            مساحة آمنة ومريحة لقلبكِ
+                        </span>
+                        <button id="releaseBtn" onclick="releaseToSky()" 
+                            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-l from-moonlight to-amber-300 text-midnight font-bold text-sm sm:text-base hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer">
+                            <span>أطلقيها للسماء وارتاحي</span>
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+                    </div>
+
+                    <!-- رسالة المواساة الفورية بعد الإطلاق -->
+                    <div id="releaseResponseBox" class="hidden mt-6 p-5 rounded-2xl bg-gradient-to-r from-blush/15 via-twilight to-moonlight/15 border border-blush/30 text-center animate-fade-in">
+                        <p id="releaseResponseText" class="font-poetry text-xl sm:text-2xl text-moonlight leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الثاني: سماء النجوم والرسائل (أدعية لأهلها المتوفين ورسائل طمأنينة) -->
+        <section id="prayers-section" class="scroll-mt-24">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">نجوم السماء.. دعاءٌ لهم وطمأنينةٌ لكِ</h2>
+                <p class="text-gray-300 text-sm sm:text-base">
+                    اضغطي على أي نجمة مضيئة في الأسفل؛ فبعضها دعاءٌ صادق لمن رحلوا عن دنيانا، وبعضها رسالة لقلبكِ تذكّركِ أنكِ في أمان.
+                </p>
+            </div>
+
+            <!-- شبكة النجوم التفاعلية -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-8" id="starsGrid">
+                <!-- يتم توليد النجوم بواسطة الجافاسكريبت -->
+            </div>
+
+            <!-- بطاقة عرض محتوى النجمة المختارة -->
+            <div id="starMessageDisplay" class="glass-card rounded-3xl p-6 sm:p-10 border border-moonlight/30 text-center max-w-3xl mx-auto transition-all duration-500">
+                <div id="starBadge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-moonlight/15 text-moonlight border border-moonlight/30 mb-4">
+                    <i class="fa-solid fa-hands-praying"></i>
+                    <span>دعاء لمن رحلوا</span>
+                </div>
+                <p id="starMainText" class="font-poetry text-2xl sm:text-3xl text-white leading-loose mb-4">
+                    "اللهم ارحم من اشتاقت لهم الأرواح، واجعل قبورهم روضةً من رياض الجنة، وآنس وحشتهم، واجمع ياسمين بهم في الفردوس الأعلى بلا فراق."
+                </p>
+                <p id="starSubText" class="text-sm text-blush/90">
+                    رحلوا بأجسادهم، لكن دعاءكِ الصادق يصلهم نوراً وسروراً كل يوم.
+                </p>
+            </div>
+        </section>
+
+        <!-- القسم الثالث: ركن الشعر والمواساة -->
+        <section id="poetry-section" class="scroll-mt-24">
+            <div class="glass-card rounded-3xl p-6 sm:p-12 border border-lavender/25 relative">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 border-b border-white/10 pb-6">
+                    <div>
+                        <span class="text-xs font-semibold text-lavender tracking-wider uppercase">همسات شعرية</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">أبياتٌ كُتبت لتواسي قلبكِ</h2>
+                    </div>
+                    <!-- أزرار التنقل بين القصائد -->
+                    <div class="flex items-center gap-3">
+                        <button onclick="prevPoem()" class="w-11 h-11 rounded-full glass-card hover:bg-moonlight/20 text-moonlight flex items-center justify-center transition-all cursor-pointer" title="القصيدة السابقة">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <span id="poemCounter" class="text-sm text-gray-300 font-medium px-2">1 / 5</span>
+                        <button onclick="nextPoem()" class="w-11 h-11 rounded-full glass-card hover:bg-moonlight/20 text-moonlight flex items-center justify-center transition-all cursor-pointer" title="القصيدة التالية">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- حاوية عرض القصيدة -->
+                <div id="poemContainer" class="poetry-transition text-center py-4 sm:py-6 min-h-[220px] flex flex-col justify-center items-center">
+                    <i class="fa-solid fa-quote-right text-2xl text-moonlight/30 mb-4"></i>
+                    <div id="poemVerses" class="font-poetry text-2xl sm:text-3xl md:text-4xl text-gray-100 leading-loose space-y-3">
+                        <!-- الأبيات تُحقن هنا -->
+                    </div>
+                    <p id="poemNote" class="mt-6 text-sm sm:text-base text-blush font-medium max-w-xl">
+                        <!-- تعليق دافئ أسفل القصيدة -->
+                    </p>
+                </div>
+
+                <!-- مؤشرات النقاط السفلية -->
+                <div id="poemDots" class="flex justify-center gap-2 mt-6"></div>
+            </div>
+        </section>
+
+        <!-- القسم الرابع: جرعة ابتسامة (رسائل لطيفة تبهج قلبها) -->
+        <section id="smile-section" class="scroll-mt-24">
+            <div class="glass-card rounded-3xl p-6 sm:p-12 border border-blush/25 text-center relative overflow-hidden">
+                <div class="max-w-2xl mx-auto">
+                    <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-blush/15 border border-blush/30 flex items-center justify-center text-blush text-2xl animate-pulse-slow">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">لأجل تلك الابتسامة التي أحبها...</h2>
+                    <p class="text-gray-300 text-sm sm:text-base mb-8">
+                        أعرف أن الحزن يسرق البهجة أحياناً، لكن ابتسامتكِ تستحق أن تعود ولو بهدوء. اضغطي على الزر في الأسفل لتفتحي رسالة صغيرة صُنعت لتُبهج قلبكِ.
+                    </p>
+
+                    <!-- بطاقة الرسالة اللطيفة -->
+                    <div id="smileCard" class="min-h-[140px] flex items-center justify-center p-6 sm:p-8 rounded-2xl bg-midnight/60 border border-blush/20 mb-8 transition-all duration-500">
+                        <p id="smileMessageText" class="text-lg sm:text-xl text-gray-200 leading-relaxed font-medium">
+                            "هل تعلمين يا ياسمين أن وجودكِ وحده يجعل هذا العالم مكاناً أجمل وألطف؟"
+                        </p>
+                    </div>
+
+                    <button onclick="revealNewSmile()" 
+                        class="px-8 py-4 rounded-2xl bg-gradient-to-l from-blush to-[#f3b0bc] text-midnight font-bold text-base sm:text-lg shadow-[0_0_25px_rgba(232,153,166,0.35)] hover:shadow-[0_0_35px_rgba(232,153,166,0.6)] hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-3 cursor-pointer">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        <span>افتحي رسالة لابتسامتكِ</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم الخامس: وعد البقاء (رسالة ختامية صادقة) -->
+        <footer class="pt-6">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 border border-moonlight/30 text-center max-w-3xl mx-auto bg-gradient-to-b from-twilight/80 to-midnight/90">
+                <div onclick="handleSecretTap()" class="inline-flex items-center justify-center gap-2 text-moonlight mb-4 cursor-pointer select-none p-2">
+                    <i class="fa-solid fa-hand-holding-heart text-2xl"></i>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4">وعدٌ من القلب.. سأبقى بجانبكِ دائماً</h3>
+                <p class="font-poetry text-xl sm:text-2xl text-gray-200 leading-relaxed mb-6">
+                    "يا ياسمين، لستِ مضطرة لأن تكوني قوية طوال الوقت، ولا أن تخفي دموعكِ أو حزنكِ. في أيامكِ الثقيلة قبل أيامكِ السعيدة، يدي في يدكِ، وقلبي سندٌ لقلبكِ، ولن أترككِ تواجهين حزنكِ وحدكِ أبداً."
+                </p>
+                <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-moonlight/50 to-transparent mx-auto my-6"></div>
+                <p class="text-sm text-moonlight font-semibold">
+                    صُنع بكل حب واهتمام.. لأجل ياسمين ✨
+                </p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- النافذة السرية الخاصة بك لقراءة رسائل ياسمين والاطمئنان عليها -->
+    <div id="secretVaultModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-moonlight/40 max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                <div class="flex items-center gap-2.5 text-moonlight">
+                    <i class="fa-solid fa-key"></i>
+                    <h3 class="text-lg sm:text-xl font-bold">ركن الاطمئنان الخاص</h3>
+                </div>
+                <button onclick="closeSecretVault()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- شاشة إدخال الرمز السري (PIN) -->
+            <div id="pinEntrySection" class="py-8 text-center space-y-5">
+                <p class="text-sm text-gray-300">أدخل الرمز السري لعرض ما كتبته ياسمين في صندوق الفضفضة</p>
+                <div class="max-w-xs mx-auto space-y-3">
+                    <input type="password" id="secretPinInput" maxlength="6" placeholder="••••" 
+                        onkeypress="if(event.key === 'Enter') verifySecretPin()"
+                        class="w-full text-center tracking-[0.5em] text-2xl font-bold rounded-2xl bg-midnight/80 border border-moonlight/30 focus:border-moonlight text-moonlight py-3 px-4 outline-none">
+                    <p id="pinErrorMsg" class="hidden text-xs text-blush">الرمز السري غير صحيح، حاول مرة أخرى</p>
+                    <button onclick="verifySecretPin()" class="w-full py-3 rounded-xl bg-moonlight text-midnight font-bold text-sm hover:brightness-110 transition-all cursor-pointer">
+                        فتح الرسائل
+                    </button>
+                </div>
+                <p class="text-[11px] text-gray-400">الرمز السري الافتراضي هو: <span class="text-moonlight font-mono">1234</span></p>
+            </div>
+
+            <!-- قائمة الرسائل المحفوظة -->
+            <div id="messagesListSection" class="hidden flex-1 overflow-y-auto space-y-4 pr-1">
+                <div class="flex items-center justify-between text-xs text-gray-400 mb-2">
+                    <span id="messagesCountLabel">جاري تحميل الرسائل...</span>
+                    <span class="text-moonlight/80"><i class="fa-solid fa-cloud-check ml-1"></i> متزامن سحابياً</span>
+                </div>
+                <div id="vaultMessagesContainer" class="space-y-3">
+                    <!-- الرسائل تظهر هنا تلقائياً -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- تكامل Firebase لحفظ الرسائل سحابياً ومزامنتها -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'yasmin-sanctuary-app';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let unsubscribeMessages = null;
+
+        // تهيئة الاتصال السحابي والمصادقة
+        async function initCloudStorage() {
+            if (!firebaseConfig) return;
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                });
+            } catch (err) {
+                console.error("Cloud init error:", err);
+            }
+        }
+
+        initCloudStorage();
+
+        // حفظ رسالة ياسمين في السحابة فور الضغط على الإطلاق
+        window.saveMessageToCloud = async function(messageText) {
+            if (!db || !currentUser) return;
+            try {
+                const messagesRef = collection(db, 'artifacts', appId, 'public', 'data', 'yasmin_messages');
+                await addDoc(messagesRef, {
+                    text: messageText,
+                    createdAt: Date.now(),
+                    formattedDate: new Date().toLocaleString('ar-EG', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                });
+            } catch (err) {
+                console.error("Error saving message:", err);
+            }
+        };
+
+        // الاستماع للرسائل المحفوظة وعرضها في الركن السري
+        window.loadSecretMessages = function() {
+            const container = document.getElementById('vaultMessagesContainer');
+            const countLabel = document.getElementById('messagesCountLabel');
+
+            if (!db || !currentUser) {
+                container.innerHTML = `<div class="p-6 text-center text-sm text-gray-400">لا يوجد اتصال بقاعدة البيانات السحابية حالياً.</div>`;
+                return;
+            }
+
+            if (unsubscribeMessages) unsubscribeMessages();
+
+            const messagesRef = collection(db, 'artifacts', appId, 'public', 'data', 'yasmin_messages');
+            unsubscribeMessages = onSnapshot(messagesRef, (snapshot) => {
+                const msgs = [];
+                snapshot.forEach(doc => {
+                    msgs.push({ id: doc.id, ...doc.data() });
+                });
+
+                // ترتيب الرسائل من الأحدث إلى الأقدم في الذاكرة
+                msgs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                countLabel.textContent = `إجمالي الرسائل: ${msgs.length}`;
+
+                if (msgs.length === 0) {
+                    container.innerHTML = `
+                        <div class="p-8 rounded-2xl bg-midnight/60 border border-white/10 text-center text-gray-400 text-sm">
+                            لم تكتب ياسمين أي رسالة في صندوق الفضفضة بعد..
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = msgs.map(m => `
+                    <div class="p-4 sm:p-5 rounded-2xl bg-midnight/75 border border-moonlight/20 space-y-2">
+                        <div class="flex items-center justify-between text-xs text-moonlight/80">
+                            <span><i class="fa-regular fa-clock ml-1"></i> ${m.formattedDate || 'الآن'}</span>
+                            <span class="px-2 py-0.5 rounded-full bg-blush/15 text-blush text-[11px]">رسالة من ياسمين</span>
+                        </div>
+                        <p class="text-gray-100 text-sm sm:text-base leading-relaxed whitespace-pre-wrap">${escapeHtml(m.text)}</p>
+                    </div>
+                `).join('');
+            }, (error) => {
+                console.error("Error fetching messages:", error);
+                container.innerHTML = `<div class="p-4 text-center text-xs text-blush">حدث خطأ أثناء تحميل الرسائل.</div>`;
+            });
+        };
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, function(m) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+            });
+        }
+    </script>
+
+    <!-- كود الجافاسكريبت المتكامل للتفاعلية والرسومات والصوت -->
+    <script>
+        /* ==========================================================================
+           1. البيانات والمحتوى العاطفي والشعري المخصص لياسمين
+           ========================================================================== */
+        
+        // ردود المواساة عند إطلاق الفضفضة للسماء
+        const releaseResponses = [
+            "طارت كلماتكِ للسماء كفانوسٍ من نور.. ربنا يربط على قلبكِ ويجبر خاطركِ يا ياسمين، أنا جنبك ومعاكي دايماً.",
+            "ارتاحي يا ياسمين، ما في قلبكِ وصل إلى رحمة الله الواسعة.. وتذكّري أنني هنا لأسمعكِ وأسندكِ في كل وقت.",
+            "كل ثقلٍ في صدركِ سيزول بإذن الله.. دعي حزنكِ يرحل مع هذا النور، وابتسمي بهدوء؛ فأنتِ لستِ وحدكِ أبداً.",
+            "سلامٌ على قلبكِ الطيب يا ياسمين.. الله يمسح على روحكِ بالسكينة والطمأنينة، وأنا بجانبكِ مهما طال الطريق.",
+            "أنتِ أقوى مما تتخيلين، وحقكِ أن ترتاحي وتطمئني.. كوني بخير لأجل من يحبونكِ، ولأجلي أنا."
+        ];
+
+        // بيانات النجوم التفاعلية (أدعية لأهلها + رسائل طمأنينة)
+        const starsData = [
+            {
+                id: 1,
+                title: "دعاء الرحمة والمغفرة",
+                icon: "fa-hands-praying",
+                color: "text-moonlight",
+                badge: "دعاء لأهلكِ الراحلين",
+                mainText: "«اللهم ارحم من اشتاقت لهم الأرواح، واجعل قبورهم روضةً من رياض الجنة، وآنس وحشتهم، واجمع ياسمين بهم في الفردوس الأعلى بلا فراق.»",
+                subText: "رحلوا بأجسادهم، لكن دعاءكِ الصادق يصلهم نوراً وسروراً كل يوم."
+            },
+            {
+                id: 2,
+                title: "رسالة طمأنينة لقلبكِ",
+                icon: "fa-shield-heart",
+                color: "text-blush",
+                badge: "رسالة لقلبكِ",
+                mainText: "«يا ياسمين، لا تحملي همّ الدنيا وحدكِ.. كلما شعرتِ بالضيق تذكّري أن هناك قلباً يدعو لكِ ويسندكِ ولا يرضى أن يراكِ حزينة.»",
+                subText: "أنا بجانبكِ دائماً، في صمتكِ قبل كلامكِ."
+            },
+            {
+                id: 3,
+                title: "دعاء السكينة والصبر",
+                icon: "fa-moon",
+                color: "text-lavender",
+                badge: "دعاء جبر الخاطر",
+                mainText: "«اللهم أنزل على قلب ياسمين سكينةً تملأ روحها، واجبر كسرها جبراً يليق برحمتك، وعوّضها عن كل ألمٍ بفرحٍ يقرّ به عينها.»",
+                subText: "إن الله مع الصابرين، وسيجبر قلبكِ جبراً تتعجب له السماء."
+            },
+            {
+                id: 4,
+                title: "نورهم لا ينطفئ",
+                icon: "fa-star",
+                color: "text-moonlight",
+                badge: "ذكرى طيبة",
+                mainText: "«من رحلوا إلى جوار ربهم هم في أمان الله ورحمته التي وسعت كل شيء، وأجمل ما تهدينه لهم هو قلبٌ مطمئن يدعو لهم بالخير.»",
+                subText: "أنتِ أجمل أثرٍ تركوه في هذه الحياة."
+            },
+            {
+                id: 5,
+                title: "وعدٌ لا يتغير",
+                icon: "fa-infinity",
+                color: "text-blush",
+                badge: "عهد البقاء",
+                mainText: "«مهما مرّت الأيام وتبدّلت الظروف، سأظل بجانبكِ يا ياسمين؛ أسمعكِ حين تتعبين، وأذكّركِ بقيمتكِ حين تنسين، وأفرح لابتسامتكِ.»",
+                subText: "وجودكِ في حياتي نعمة لا تُقدّر بثمن."
+            },
+            {
+                id: 6,
+                title: "دعاء الفردوس",
+                icon: "fa-cloud-sun",
+                color: "text-lavender",
+                badge: "دعاء لأحبابكِ",
+                mainText: "«اللهم اجعلهم من الضاحكين المستبشرين بالجنة، الشاربين من حوض نبيك، وارزق ياسمين راحة البال وطمأنينة القلب.»",
+                subText: "اللهم آمين يا رب العالمين."
+            }
+        ];
+
+        // مجموعة القصائد العربية الرقيقة في المواساة والوقوف بجانبها
+        const poemsData = [
+            {
+                verses: [
+                    "لا تَحزَني إن أَثقَلَ الدَّمعُ المَآقي",
+                    "فَاللهُ أَرحَمُ بِالقُلوبِ الباكيَة",
+                    "وأنا بِقُربِكِ في الشَّدائِدِ كُلِّها",
+                    "كَفِّي بِكَفِّكِ.. والوُعودُ الباقيَة"
+                ],
+                note: "لستِ وحدكِ في هذا الحزن يا ياسمين.. أنا معكِ دائماً."
+            },
+            {
+                verses: [
+                    "يا ياسمينةَ عُمري لا تَضِقْ سُبُلٌ",
+                    "ما دامَ في السَّماءِ رَبٌّ يَجبُرُ الكَسرا",
+                    "مَن غادَروا الدُّنيا لِرَحمَةِ خالِقٍ",
+                    "في جَنَّةِ الفِردَوسِ يَلقَونَ البُشرى"
+                ],
+                note: "رحم الله أحبابكِ وأسكنهم فسيح جناته، وألهم قلبكِ السكينة."
+            },
+            {
+                verses: [
+                    "أَراكِ تَكتُمينَ الحُزنَ في صَمتٍ",
+                    "وَلَيتَ الحُزنَ يُحمَلُ عَنكِ يا قَمَري",
+                    "خُذي مِن راحتي ما شِئتِ مِن سَعَةٍ",
+                    "فَأنتِ النُّورُ في لَيلي وفي سَفَري"
+                ],
+                note: "لا تكتُمي وجعكِ.. قلبي يتّسع لكل ما في قلبكِ."
+            },
+            {
+                verses: [
+                    "سَتُشرِقُ الشَّمسُ في عَينَيكِ ثانِيَةً",
+                    "وَيَذهَبُ الغَيمُ عَن رُوحٍ لَها الأَثَرُ",
+                    "إِذا ابتَسَمتِ أَضاءَ الكَونُ أَجمَعُهُ",
+                    "فَلا يَغِيبَنَّ عَن وَجهِكِ القَمَرُ"
+                ],
+                note: "ابتسامتكِ هي أجمل ما في هذه الدنيا."
+            },
+            {
+                verses: [
+                    "وَعَدتُكِ أَن أَكونَ الظِّلَّ إن تَعِبَت",
+                    "خُطاكِ يَوماً، وَأَن أَبقى لَكِ السَّنَدا",
+                    "في الحُزنِ قَبلَ الفَرَحِ تَلقَينَني أبداً",
+                    "لا أَترُكُ اليَدَ ما دامَ الفُؤادُ شَدا"
+                ],
+                note: "وعدٌ صادق أن أظل سندكِ ورفيقكِ في كل الأوقات."
+            }
+        ];
+
+        // رسائل لطيفة لرسم الابتسامة على وجهها
+        const smileMessages = [
+            "«هل تعلمين يا ياسمين أن ابتسامتكِ البسيطة قادرة على تغيير مزاج يومي بالكامل؟»",
+            "«حتى في أوقات حزنكِ، تظلين أرقّ وأجمل إنسانة عرفتها.. رفقاً بقلبكِ الجميل.»",
+            "«وعدٌ مني: سأظل أحاول إضحاككِ وإسعادكِ حتى تعود تلك اللمعة الحلوة لعينيكِ!»",
+            "«تذكّري دائماً: أنتِ تستحقين كل الفرح والراحة في هذا العالم، ولا يليق بوجهكِ إلا الابتسام.»",
+            "«لو كان بيدي لجمعتُ كل نجوم السماء ووضعتها بين يديكِ فقط لأرى ابتسامتكِ الآن.»",
+            "«ياسمين.. اسمٌ على مسمّى، تتركين عطراً طيباً وراحةً في قلب كل من يعرفكِ.»",
+            "«خُذي نفساً عميقاً الآن.. وابتسمي ولو ابتسامة صغيرة، لأن هناك من يحبكِ بصدق ويخاف على زعلكِ.»"
+        ];
+
+        /* ==========================================================================
+           2. التفاعل مع واجهة المستخدم (Navigation, Stars, Poetry, Smiles, Release)
+           ========================================================================== */
+
+        let currentPoemIndex = 0;
+        let currentSmileIndex = 0;
+
+        // الدخول من شاشة الترحيب إلى المساحة الآمنة
+        function enterSanctuary() {
+            const welcome = document.getElementById('welcomeScreen');
+            const main = document.getElementById('mainContent');
+            
+            playSoftChime(523.25); // نغمة ترحيبية دافئة
+            
+            welcome.style.opacity = '0';
+            welcome.style.transform = 'scale(0.96)';
+            
+            setTimeout(() => {
+                welcome.classList.add('hidden');
+                main.classList.remove('hidden');
+                // تفعيل التلاشي التدريجي للدخول
+                requestAnimationFrame(() => {
+                    main.style.opacity = '1';
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 600);
+        }
+
+        // إطلاق الفضفضة للسماء كفانوس مضيء
+        function releaseToSky() {
+            const input = document.getElementById('releaseInput');
+            const text = input.value.trim();
+            const responseBox = document.getElementById('releaseResponseBox');
+            const responseText = document.getElementById('releaseResponseText');
+
+            if (!text) {
+                input.focus();
+                input.classList.add('border-blush');
+                setTimeout(() => input.classList.remove('border-blush'), 1000);
+                return;
+            }
+
+            // إطلاق 6 فوانيس مضيئة في الكانفاس
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    spawnLantern(window.innerWidth * (0.3 + Math.random() * 0.4), window.innerHeight * 0.75);
+                }, i * 180);
+            }
+
+            playSoftChime(659.25);
+
+            // تفريغ الصندوق بسلاسة كأن الهموم رحلت
+            input.value = '';
+
+            // إظهار رسالة مواساة عشوائية دافئة
+            const randomMsg = releaseResponses[Math.floor(Math.random() * releaseResponses.length)];
+            responseText.textContent = randomMsg;
+            responseBox.classList.remove('hidden');
+        }
+
+        // تهيئة شبكة النجوم التفاعلية
+        function initStarsGrid() {
+            const grid = document.getElementById('starsGrid');
+            grid.innerHTML = '';
+
+            starsData.forEach((star, index) => {
+                const btn = document.createElement('button');
+                btn.className = `glass-card glass-card-hover rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center text-center gap-3 cursor-pointer border ${index === 0 ? 'border-moonlight/60 bg-twilight/80' : 'border-white/10'}`;
+                btn.onclick = () => selectStar(index, btn);
+                
+                btn.innerHTML = `
+                    <div class="star-orb w-12 h-12 rounded-full bg-midnight/80 border border-moonlight/30 flex items-center justify-center ${star.color} text-lg">
+                        <i class="fa-solid ${star.icon}"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm font-semibold text-gray-200">${star.title}</span>
+                `;
+                grid.appendChild(btn);
+            });
+        }
+
+        // اختيار نجمة وعرض محتواها
+        function selectStar(index, clickedBtn) {
+            const star = starsData[index];
+            const display = document.getElementById('starMessageDisplay');
+            const badge = document.getElementById('starBadge');
+            const mainText = document.getElementById('starMainText');
+            const subText = document.getElementById('starSubText');
+
+            // تحديث مظهر الأزرار
+            const allBtns = document.getElementById('starsGrid').children;
+            for (let b of allBtns) {
+                b.classList.remove('border-moonlight/60', 'bg-twilight/80');
+                b.classList.add('border-white/10');
+            }
+            clickedBtn.classList.remove('border-white/10');
+            clickedBtn.classList.add('border-moonlight/60', 'bg-twilight/80');
+
+            playSoftChime(587.33);
+
+            // تأثير انتقال لطيف للنص
+            display.style.opacity = '0.3';
+            display.style.transform = 'translateY(6px)';
+
+            setTimeout(() => {
+                badge.innerHTML = `<i class="fa-solid ${star.icon}"></i><span>${star.badge}</span>`;
+                mainText.textContent = star.mainText;
+                subText.textContent = star.subText;
+                display.style.opacity = '1';
+                display.style.transform = 'translateY(0)';
+            }, 220);
+        }
+
+        // عرض القصيدة الحالية
+        function renderPoem() {
+            const container = document.getElementById('poemContainer');
+            const versesEl = document.getElementById('poemVerses');
+            const noteEl = document.getElementById('poemNote');
+            const counterEl = document.getElementById('poemCounter');
+            const dotsEl = document.getElementById('poemDots');
+
+            const poem = poemsData[currentPoemIndex];
+
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(8px)';
+
+            setTimeout(() => {
+                versesEl.innerHTML = poem.verses.map(line => `<p>${line}</p>`).join('');
+                noteEl.textContent = poem.note;
+                counterEl.textContent = `${currentPoemIndex + 1} / ${poemsData.length}`;
+
+                // تحديث النقاط السفلية
+                dotsEl.innerHTML = poemsData.map((_, idx) => `
+                    <button onclick="goToPoem(${idx})" class="h-2 rounded-full transition-all cursor-pointer ${idx === currentPoemIndex ? 'w-8 bg-moonlight' : 'w-2 bg-white/25 hover:bg-white/50'}" aria-label="قصيدة ${idx + 1}"></button>
+                `).join('');
+
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 220);
+        }
+
+        function nextPoem() {
+            currentPoemIndex = (currentPoemIndex + 1) % poemsData.length;
+            playSoftChime(440);
+            renderPoem();
+        }
+
+        function prevPoem() {
+            currentPoemIndex = (currentPoemIndex - 1 + poemsData.length) % poemsData.length;
+            playSoftChime(440);
+            renderPoem();
+        }
+
+        function goToPoem(index) {
+            currentPoemIndex = index;
+            playSoftChime(440);
+            renderPoem();
+        }
+
+        // كشف رسالة جديدة لرسم الابتسامة
+        function revealNewSmile() {
+            const card = document.getElementById('smileCard');
+            const msgEl = document.getElementById('smileMessageText');
+
+            currentSmileIndex = (currentSmileIndex + 1) % smileMessages.length;
+            playSoftChime(783.99);
+
+            // إطلاق قلوب/فوانيس وردية خفيفة في السماء
+            for (let i = 0; i < 4; i++) {
+                spawnLantern(window.innerWidth * (0.35 + Math.random() * 0.3), window.innerHeight * 0.8, true);
+            }
+
+            card.style.opacity = '0.2';
+            card.style.transform = 'scale(0.97)';
+
+            setTimeout(() => {
+                msgEl.textContent = smileMessages[currentSmileIndex];
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            }, 220);
+        }
+
+        /* ==========================================================================
+           3. الصوت الهادئ المدمج (Web Audio API - بدون روابط خارجية)
+           ========================================================================== */
+        let audioCtx = null;
+        let isAudioEnabled = false;
+        let ambientInterval = null;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        /* ==========================================================================
+           إدارة المدخل السري والنافذة الخاصة بك (5 نقرات متتالية + PIN)
+           ========================================================================== */
+        const SECRET_PIN = "1234"; // يمكنك تغيير الرمز السري من هنا لأي رقم تريده
+        let secretTapCount = 0;
+        let secretTapTimer = null;
+
+        function handleSecretTap() {
+            secretTapCount++;
+            clearTimeout(secretTapTimer);
+            
+            if (secretTapCount >= 5) {
+                secretTapCount = 0;
+                openSecretVault();
+            } else {
+                secretTapTimer = setTimeout(() => {
+                    secretTapCount = 0;
+                }, 2000);
+            }
+        }
+
+        function openSecretVault() {
+            const modal = document.getElementById('secretVaultModal');
+            const pinSection = document.getElementById('pinEntrySection');
+            const listSection = document.getElementById('messagesListSection');
+            const pinInput = document.getElementById('secretPinInput');
+            const errorMsg = document.getElementById('pinErrorMsg');
+
+            pinInput.value = '';
+            errorMsg.classList.add('hidden');
+            pinSection.classList.remove('hidden');
+            listSection.classList.add('hidden');
+            modal.classList.remove('hidden');
+            setTimeout(() => pinInput.focus(), 100);
+        }
+
+        function closeSecretVault() {
+            document.getElementById('secretVaultModal').classList.add('hidden');
+        }
+
+        function verifySecretPin() {
+            const pinInput = document.getElementById('secretPinInput');
+            const errorMsg = document.getElementById('pinErrorMsg');
+
+            if (pinInput.value === SECRET_PIN) {
+                errorMsg.classList.add('hidden');
+                document.getElementById('pinEntrySection').classList.add('hidden');
+                document.getElementById('messagesListSection').classList.remove('hidden');
+                if (typeof window.loadSecretMessages === 'function') {
+                    window.loadSecretMessages();
+                }
+            } else {
+                errorMsg.classList.remove('hidden');
+                pinInput.value = '';
+                pinInput.focus();
+            }
+        }
+
+        // عزف نغمة رقيقة تشبه أجراس الرياح الدافئة
+        function playSoftChime(freq = 523.25) {
+            if (!isAudioEnabled) return;
+            try {
+                initAudioContext();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.15);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.8);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 2.9);
+            } catch (e) {
+                // تجاهل أخطاء الصوت في حال حظر المتصفح
+            }
+        }
+
+        // تبديل الموسيقى الخلفية الهادئة
+        function toggleAmbientAudio() {
+            const btn = document.getElementById('audioToggleBtn');
+            const icon = document.getElementById('audioIcon');
+            const label = document.getElementById('audioLabel');
+
+            isAudioEnabled = !isAudioEnabled;
+
+            if (isAudioEnabled) {
+                initAudioContext();
+                icon.className = 'fa-solid fa-volume-high text-moonlight animate-pulse';
+                label.textContent = 'الصوت يعمل';
+                btn.classList.add('border-moonlight/60');
+
+                // نغمات سلم خماسي هادئ ومريح للأعصاب
+                const calmNotes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
+                playSoftChime(392.00);
+
+                ambientInterval = setInterval(() => {
+                    if (isAudioEnabled) {
+                        const note = calmNotes[Math.floor(Math.random() * calmNotes.length)];
+                        playSoftChime(note);
+                    }
+                }, 4200);
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-blush';
+                label.textContent = 'صوت هادئ';
+                btn.classList.remove('border-moonlight/60');
+                if (ambientInterval) clearInterval(ambientInterval);
+            }
+        }
+
+        /* ==========================================================================
+           4. رسومات السماء الليلية والنجوم والفوانيس الطائرة (HTML5 Canvas)
+           ========================================================================== */
+        const canvas = document.getElementById('skyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let bgStars = [];
+        let lanterns = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            createBackgroundStars();
+        }
+
+        function createBackgroundStars() {
+            bgStars = [];
+            const starCount = Math.floor((width * height) / 7500);
+            for (let i = 0; i < starCount; i++) {
+                bgStars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.6 + 0.4,
+                    alpha: Math.random(),
+                    speed: (Math.random() * 0.015) + 0.005,
+                    isGold: Math.random() > 0.75
+                });
+            }
+        }
+
+        // إنشاء فانوس/نور طائر عند الفضفضة أو طلب ابتسامة
+        function spawnLantern(x, y, isPink = false) {
+            lanterns.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 1.2,
+                vy: -(Math.random() * 1.8 + 1.2),
+                size: Math.random() * 5 + 4,
+                alpha: 1,
+                color: isPink ? '232, 153, 166' : '244, 208, 111',
+                wobble: Math.random() * Math.PI * 2
+            });
+        }
+
+        function animateSky() {
+            ctx.clearRect(0, 0, width, height);
+
+            // تدرج سماء الليل الهادئة
+            const grad = ctx.createRadialGradient(width * 0.5, height * 0.2, 50, width * 0.5, height * 0.5, Math.max(width, height));
+            grad.addColorStop(0, '#16213e');
+            grad.addColorStop(0.5, '#0d1324');
+            grad.addColorStop(1, '#070a12');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+
+            // رسم النجوم المتلألئة
+            for (let s of bgStars) {
+                s.alpha += s.speed;
+                if (s.alpha > 1 || s.alpha < 0.15) s.speed = -s.speed;
+
+                // تفاعل خفيف مع حركة الماوس أو اللمس
+                const dx = mouse.x - s.x;
+                const dy = mouse.y - s.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const extraGlow = dist < 120 ? (1 - dist / 120) * 0.6 : 0;
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius + extraGlow * 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = s.isGold 
+                    ? `rgba(244, 208, 111, ${Math.min(1, s.alpha + extraGlow)})` 
+                    : `rgba(255, 255, 255, ${Math.min(1, s.alpha + extraGlow)})`;
+                ctx.fill();
+            }
+
+            // رسم الفوانيس الطائرة المتوهجة
+            for (let i = lanterns.length - 1; i >= 0; i--) {
+                const l = lanterns[i];
+                l.wobble += 0.04;
+                l.x += l.vx + Math.sin(l.wobble) * 0.5;
+                l.y += l.vy;
+                l.alpha -= 0.0045;
+
+                if (l.alpha <= 0 || l.y < -30) {
+                    lanterns.splice(i, 1);
+                    continue;
+                }
+
+                // هالة ضوئية حول الفانوس
+                const glow = ctx.createRadialGradient(l.x, l.y, 1, l.x, l.y, l.size * 4);
+                glow.addColorStop(0, `rgba(${l.color}, ${l.alpha})`);
+                glow.addColorStop(1, `rgba(${l.color}, 0)`);
+
+                ctx.beginPath();
+                ctx.arc(l.x, l.y, l.size * 4, 0, Math.PI * 2);
+                ctx.fillStyle = glow;
+                ctx.fill();
+
+                // قلب الفانوس المضيء
+                ctx.beginPath();
+                ctx.arc(l.x, l.y, l.size * 0.8, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${l.alpha})`;
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateSky);
+        }
+
+        // تتبع حركة الماوس واللمس لإضفاء حيوية هادئة على النجوم
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // تشغيل التهيئة عند تحميل الصفحة
+        window.onload = function () {
+            resizeCanvas();
+            animateSky();
+            initStarsGrid();
+            renderPoem();
+        };
+    </script>
+</body>
+</html>
